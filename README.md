@@ -114,28 +114,17 @@ Guarda un archivo en local o minio dependiendo de su estado activo.
 | :-------- | :------- | :---------- |
 | `$file`   | `string`,`UploadedFile`| **Required**. ruta o archivo a guardar)|
 |`$folder` | `string` | **Required**. carpeta minio|
-|`$options` | `array` | **Optional**. opciones de guardado |
+|`$options` | `array` | **Optional**. opciones de guardado. (Aplica estos efectos: storage, delete, newName) |
 
 `Array` Datos de retorno
 
-```php
-<?php
-[
-  'path'      => ruta relativa, 
-  'url'       => ruta absoluta, 
-  'name'      => nombre del archivo, 
-  'publicUrl' => url pública
-]
-```
-❗️ Efectos $options
+| Return Data | Type     | Description |
+| :-------- | :------- | :---------- |
+| `path`   | `string`|ruta relativa|
+|`url` | `string` | ruta absoluta|
+|`name` | `string` | nombre del archivo |
+|`publicUrl` | `string` | url pública|
 
-A este método le afectan los siguientes parámetros:
-
-Con `storage => true` se manejarán los archivos en el storage de laravel. (Con esta opción es obligatorio parametrizar folderMinio).
-
-Con `delete => true` se aliminará el archivo después de subir. (aplica cuando el archivo existe en server).
-
-Con `newName => false` se mantiene el nombre original del archivo.
 
 #### 👁️‍🗨️️ Obtener un archivo
 Este método está depreciado, en su lugar usa **showFile()**
@@ -152,24 +141,20 @@ Devuelve la ruta del archivo para mostrar. No confundir con `downloadFile()`
 
 `Array` Datos de retorno
 
-```php
-<?php
-[
-    'from' => true si viene de minio,
-    'exists' => si existe el archivo,
-    'url' => ruta del archivo,
-]
-```
+| Return Data | Type     | Description |
+| :-------- | :------- | :---------- |
+|`from` | `bool` | `true` si viene de minio |
+|`exists` | `bool` | `true` si existe el archivo |
+|`url` | `string` | ruta del archivo |
 
 Devuelve la ruta del archivo para mostrar. No confundir con `downloadFile()`
-
 
 `showFile(string $path, array $options)`
 
 | Parameter | Type     | Description |
 | :-------- | :------- | :---------- |
 | `$path`   | `string`| **Required**. ruta del archivo a obtener|
-|`$options` | `array` | **Optional**. Nombre del disco|
+|`$options` | `array` | **Optional**. Nombre del disco (aplica efectos de storage)|
 
 
 `Array` Datos de retorno
@@ -182,3 +167,43 @@ Devuelve la ruta del archivo para mostrar. No confundir con `downloadFile()`
 |`path` | `string` | ruta de entrada|
 |`url` | `string` | ruta absoluta|
 |`publicUrl` | `string` | url pública|
+
+### 📥️ Descargar/mover un archivo a local
+
+Este método permite mover o descargar un archivo de minio a local, cuando el almacenamiento en la nube está activado.
+
+Cuando Minio está desactivado retornará el archivo mismo que está en local.
+
+`downloadFile(string $path, array $options)`
+
+
+| Parameter | Type     | Description |
+| :-------- | :------- | :---------- |
+| `$path`   | `string`| **Required**. ruta del archivo a descargar|
+|`$options` | `array` | **Optional**. Opciones (aplica estos efectos: storage, ignoreExists, delete)|
+
+`array` Datos de retorno
+
+| Return Data | Type     | Description |
+| :-------- | :------- | :---------- |
+| `local`   | `bool`| si viene de minio o local|
+|`exists` | `bool` | si el archivo existe en minio o local|
+|`path` | `string` | ruta de entrada|
+|`url` | `string` | ruta absoluta|
+
+### ❎️ Eliminar un archivo
+
+elimina uno o varios archivo si existen
+
+`deleteFile(string|array $path, array $options)`
+
+| Parameter | Type     | Description |
+| :-------- | :------- | :---------- |
+| `$path`   | `string` `array` | **Required**. ruta del archivo. Se pueden enviar varias rutas en un array unideimensional|
+|`$options` | `array` | **Optional**. Opciones (aplica estos efectos: storage)|
+
+`void` Datos de retorno
+
+### 📗️📗️ Copiar/Mover un archivo
+
+Este método permite copiar un archivo de una carpeta a otra
