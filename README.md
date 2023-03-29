@@ -141,6 +141,7 @@ Con `newName => false` se mantiene el nombre original del archivo.
 Este método está depreciado, en su lugar usa **showFile()**
 
 Devuelve la ruta del archivo para mostrar. No confundir con `downloadFile()`
+
 `getFile(string $path, string $disk, string $folderMinio)`
 
 | Parameter | Type     | Description |
