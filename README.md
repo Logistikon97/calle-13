@@ -162,6 +162,7 @@ Devuelve la ruta del archivo para mostrar. No confundir con `downloadFile()`
 
 Devuelve la ruta del archivo para mostrar. No confundir con `downloadFile()`
 
+
 `showFile(string $path, array $options)`
 
 | Parameter | Type     | Description |
